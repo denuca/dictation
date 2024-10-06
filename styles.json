@@ -1,0 +1,41 @@
+{
+    "word": {
+        "font_path": "fonts/comic.ttf",
+        "font_name": "Comic Sans MS",
+        "font_size": 20,
+        "font_color": [255, 255, 255],
+        "border_color": [0, 0, 0],
+        "border_width": 1,
+        "margin_left": 5,
+        "margin_right": 5,
+        "margin_top": 2,
+        "margin_bottom": 2,
+        "count_id": true,
+        "display_id": true
+    },
+    "punctuation": {
+        "font_path": "fonts/comic.ttf",
+        "font_name": "Comic Sans MS",
+        "font_size": 20,
+        "font_color": [255, 255, 255],
+        "border_color": [0, 0, 250],
+        "border_width": 1,
+        "margin_left": 5,
+        "margin_right": 5,
+        "margin_top": 2,
+        "margin_bottom": 2,
+        "count_id": false,
+        "display_id": false
+    },
+    "id": {
+        "font_size": 10,
+        "font_color": [255, 0, 0]
+    },
+    "header": {
+        "text": "Header Text",
+        "font_size": 10
+    },
+    "footer": {
+        "font_size": 10
+    }
+}
