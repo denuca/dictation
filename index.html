@@ -3,36 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text Input and File Upload</title>
+    <title>File Upload</title>
 </head>
 <body>
-    <h1>Upload a Text File or Enter Text</h1>
-    <form id="uploadForm">
-        <label for="textInput">Enter Text:</label><br>
-        <textarea id="textInput" rows="4" cols="50"></textarea><br><br>
-        <label for="fileInput">Or Upload a Text File:</label><br>
-        <input type="file" id="fileInput" accept=".txt"><br><br>
+    <form id="uploadForm" action="/api/webhook" method="POST" enctype="multipart/form-data">
+        <input type="text" name="name" required>
+        <input type="file" name="file" required>
         <button type="submit">Submit</button>
     </form>
-    <pre id="output"></pre>
+    <div id="message"></div>
+    <div id="downloadLink"></div>
 
     <script>
-        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+        document.getElementById('uploadForm').addEventListener('submit', async function(event) {
             event.preventDefault();
-            const textInput = document.getElementById('textInput').value;
-            const fileInput = document.getElementById('fileInput').files;
-            const output = document.getElementById('output');
+            const form = event.target;
+            const formData = new FormData(form);
 
-            if (textInput) {
-                output.textContent = textInput;
-            } else if (fileInput) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    output.textContent = e.target.result;
-                };
-                reader.readAsText(fileInput);
+            const response = await fetch(form.action, {
+                method: form.method,
+                body: formData
+            });
+
+            const messageDiv = document.getElementById('message');
+            const downloadLinkDiv = document.getElementById('downloadLink');
+
+            if (response.ok) {
+                const result = await response.json();
+                messageDiv.textContent = result.message;
+                if (result.download_link) {
+                    downloadLinkDiv.innerHTML = `<a href="${result.download_link}" target="_blank">Download Processed File</a>`;
+                }
             } else {
-                output.textContent = 'Please enter text or upload a file.';
+                const result = await response.json();
+                messageDiv.textContent = result.message;
+                downloadLinkDiv.innerHTML = '';
             }
         });
     </script>

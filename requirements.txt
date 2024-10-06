@@ -1,2 +1,5 @@
+Flask
 python-pptx
 Pillow
+requests
+werkzeug

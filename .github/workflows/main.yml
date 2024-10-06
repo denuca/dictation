@@ -23,8 +23,14 @@ jobs:
 
     - name: Add example text file
       run: |
-        echo "Title\nThis is an example text file." > input.txt
+        echo -e "Title\nThis is an example text file.\r\nAnother line, maybe?\r\nPerhaps, finally, some content, worth using as a dictation!" > input.txt
 
-    - name: Run script
+    - name: Run script with parameter
       run: |
         python dictation.py input.txt
+
+    - name: Upload PPT as artifact
+      uses: actions/upload-artifact@v4
+      with:
+          name: output-ppt
+          path: output.pptx

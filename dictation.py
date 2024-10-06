@@ -1,5 +1,6 @@
 import re
 import json
+import os
 import pptx
 import sys
 from pptx.util import Inches, Pt
@@ -13,7 +14,7 @@ with open('styles.json', 'r') as f:
     styles = json.load(f)
 
 # Function to create a PowerPoint presentation from a text file
-def create_ppt_from_text(file_path):
+def create_ppt_from_text(file_path, output_path='output.pptx'):
     # Load the text file
     with open(file_path, 'r') as file:
         lines = file.readlines()
@@ -68,7 +69,7 @@ def create_ppt_from_text(file_path):
 
         # Disable AutoFit
         tf.word_wrap = False
-        tf.auto_size = True
+        #tf.auto_size = True
 
         # Add the word ID above the text box if required
         if styles[content_type]['display_id']:
@@ -138,11 +139,12 @@ def create_ppt_from_text(file_path):
         footer_frame.paragraphs[0].alignment = PP_ALIGN.RIGHT
 
     # Save the presentation
-    prs.save('output.pptx')
+    prs.save(output_path)
+    pass
 
 if __name__ == '__main__':
-    import sys
     if len(sys.argv) > 1:
-        create_ppt_from_text(sys.argv)
+        print(f"Argument is: '{sys.argv[1]}'.")
+        create_ppt_from_text(f"{sys.argv[1]}")
     else:
         print("Please provide the path to the text file as an argument.")

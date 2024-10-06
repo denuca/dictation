@@ -1,0 +1,45 @@
+name: Handle Form Submission
+
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'name'
+        required: true
+        default: 'World'
+      file:
+        description: 'Path to the uploaded file'
+        required: true
+
+jobs:
+  buildhandle-form:
+    runs-on: ubuntu-latest
+
+    steps:
+        - name: Checkout repository
+          uses: actions/checkout@v2
+        - name: Process form submission
+          run: |
+            echo "Form submission received"
+        - name: Set up Python
+          uses: actions/setup-python@v2
+          with:
+            python-version: '3.9'
+        - name: Install dependencies
+          run: |
+            python -m pip install --upgrade pip
+            pip install -r requirements.txt
+    
+        - name: Download uploaded file
+          run: |
+            echo "${{ github.event.inputs.file }}" > input.txt
+    
+        - name: Run script with parameter
+          run: |
+            python dictation.py input.txt
+    
+        - name: Upload PPT as artifact
+          uses: actions/upload-artifact@v4
+          with:
+              name: output-ppt
+              path: output.pptx
