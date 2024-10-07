@@ -43,3 +43,7 @@ jobs:
           with:
               name: output-ppt
               path: output.pptx
+
+        - name: Set output
+          run: echo "run_id=${{ github.run_id }}" >> $GITHUB_ENV
+      
