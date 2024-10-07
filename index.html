@@ -3,14 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Upload</title>
+    <title>Text to PPTX</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 500px;
+      }
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+      textarea, input[type="file"], input[type="email"], button {
+        margin-bottom: 15px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+      }
+      .or-text {
+        text-align: center;
+        margin: 10px 0;
+        font-weight: bold;
+        color: #555;
+      }
+      button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      .clear-button {
+        background-color: #ff9800;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+      .clear-button:hover {
+        background-color: #e68900;
+      }
+      .hidden {
+        display: none;
+      }
+    </style>
+    <script>
+      function toggleEmailInput() {
+        var emailCheckbox = document.getElementById('emailCheckbox');
+        var emailInput = document.getElementById('emailInput');
+        emailInput.classList.toggle('hidden', !emailCheckbox.checked);
+      }
+
+      function toggleFileInput() {
+        var textInput = document.getElementById('textInput');
+        var fileInput = document.getElementById('fileInput');
+        if (textInput.value) {
+          fileInput.disabled = true;
+        } else {
+          fileInput.disabled = false;
+        }
+      }
+
+      function toggleTextInput() {
+        var textInput = document.getElementById('textInput');
+        var fileInput = document.getElementById('fileInput');
+        if (fileInput.files.length > 0) {
+          textInput.disabled = true;
+        } else {
+          textInput.disabled = false;
+        }
+      }
+
+      function clearFileInput() {
+        var fileInput = document.getElementById('fileInput');
+        fileInput.value = '';
+        toggleTextInput();
+      }
+    </script>
 </head>
 <body>
-    <form id="uploadForm" action="/api/webhook" method="POST" enctype="multipart/form-data">
-        <input type="text" name="name" required>
-        <input type="file" name="file" required>
+    <form id="uploadForm" action="/api/webhook" method="post" enctype="multipart/form-data">
+        <textarea id="textInput" name="text" rows="10" cols="30" placeholder="Enter text here..." oninput="toggleFileInput()"></textarea>
+        <div class="or-text">OR</div>
+        <input id="fileInput" type="file" name="file" onchange="toggleTextInput()">
+        <button type="button" class="clear-button" onclick="clearFileInput()">Clear File</button>
+        <label>
+          <input type="checkbox" id="emailCheckbox" name="emailCheckbox" onclick="toggleEmailInput()"> Send the file to my email
+        </label>
+        <input id="emailInput" type="email" name="email" placeholder="Enter your email" class="hidden">
         <button type="submit">Submit</button>
-    </form>
+      </form>
     <div id="message"></div>
     <div id="downloadLink"></div>
 
