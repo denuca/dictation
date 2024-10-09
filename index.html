@@ -101,6 +101,7 @@
     </script>
 </head>
 <body>
+    <div class="container">
     <form id="uploadForm" action="/api/webhook" method="post" enctype="multipart/form-data">
         <textarea id="textInput" name="text" rows="10" cols="30" placeholder="Enter text here..." oninput="toggleFileInput()"></textarea>
         <div class="or-text">OR</div>
@@ -142,5 +143,6 @@
             }
         });
     </script>
+    </div>
 </body>
 </html>
